@@ -9,7 +9,7 @@
 import ShoppingList from './components/ShoppingList.vue'
 
 export default {
-  name: 'App',
+  name: 'Handleliste',
   components: {
     ShoppingList
   }

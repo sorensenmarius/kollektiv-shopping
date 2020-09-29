@@ -44,32 +44,25 @@
       </section>
       <footer class="footer" v-show="items.length" v-cloak>
         <span class="todo-count">
-          <strong>{{ remaining }}</strong> items left
+          Du mangler <strong>{{ remaining }}</strong> ting
         </span>
         <ul class="filters">
           <li>
-            <a @click="setVisibility('all')" :class="{ selected: visibility == 'all' }">All</a>
+            <a @click="setVisibility('all')" :class="{ selected: visibility == 'all' }">Alt</a>
           </li>
           <li>
             <a @click="setVisibility('active')" :class="{ selected: visibility == 'active' }"
-              >Unchecked</a
+              >Bare ting vi trenger</a
             >
           </li>
           <li>
             <a
                 @click="setVisibility('checked')"
                 :class="{ selected: visibility == 'checked' }"
-                >Checked</a
+                >Tidligere kjøpte ting</a
             >
           </li>
         </ul>
-        <button
-          class="clear-completed"
-          @click="removeChecked"
-          v-show="items.length > remaining"
-        >
-          Clear checked
-        </button>
       </footer>
     </section>
     </div>
@@ -498,7 +491,6 @@ a {
 	list-style: none;
 	position: absolute;
 	right: 0;
-	left: 0;
 }
 
 .filters li {
