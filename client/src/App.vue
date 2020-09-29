@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Kjøp detta!</h1>
+    <h1 style="margin-left: 35px">Kjøp detta!</h1>
     <ShoppingList />
   </div>
 </template>
