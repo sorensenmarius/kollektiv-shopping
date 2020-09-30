@@ -4,20 +4,16 @@
       <header class="header">
         <input
           class="new-todo"
+          :class="{loading: addItemLoading}"
           autofocus
           autocomplete="off"
           placeholder="Ny greie?"
           v-model="newItem"
           @keyup.enter="addItem"
         />
+        <div :class="{addItemLoading: addItemLoading}"><div></div><div></div><div></div><div></div></div>
       </header>
       <section class="main" v-show="items.length" v-cloak>
-        <input
-          id="toggle-all"
-          class="toggle-all"
-          type="checkbox"
-          v-model="allDone"
-        />
         <label for="toggle-all"></label>
         <ul class="todo-list">
           <li
@@ -93,7 +89,8 @@ export default {
             newItem: '',
             items: [],
             visibility: 'all',
-            editedItem: null
+            editedItem: null,
+            addItemLoading: false
         }
     },
     mounted() {
@@ -101,6 +98,8 @@ export default {
     },
     methods: {
         addItem: function() {
+            if(this.addItemLoading) return;
+            this.addItemLoading = true
             let name = this.newItem && this.newItem.trim()
 
             if(!name) {
@@ -110,6 +109,7 @@ export default {
             let self = this
 
             funcs.httpsCallable('addItem')({ name }).then(function(res) {
+                self.addItemLoading = false
                 self.items.push(res.data)
                 self.newItem = ''
             })
@@ -548,6 +548,65 @@ html .clear-completed:active {
 .info a:hover {
 	text-decoration: underline;
 }
+
+// Loading spinner
+.addItemLoading {
+  display: inline-block;
+  right: 0px;
+  position: absolute;
+  width: 80px;
+  height: 65px;
+}
+.addItemLoading div {
+  position: absolute;
+  top: 27px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #ccc;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.addItemLoading div:nth-child(1) {
+  left: 8px;
+  animation: addItemLoading1 0.6s infinite;
+}
+.addItemLoading div:nth-child(2) {
+  left: 8px;
+  animation: addItemLoading2 0.6s infinite;
+}
+.addItemLoading div:nth-child(3) {
+  left: 32px;
+  animation: addItemLoading2 0.6s infinite;
+}
+.addItemLoading div:nth-child(4) {
+  left: 56px;
+  animation: addItemLoading3 0.6s infinite;
+}
+@keyframes addItemLoading1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes addItemLoading3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes addItemLoading2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
 
 /*
 	Hack to remove background from Mobile Safari.
